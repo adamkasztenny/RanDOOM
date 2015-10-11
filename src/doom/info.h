@@ -24,6 +24,8 @@
 // Needed for action function pointer handling.
 #include "d_think.h"
 
+//extern int player_health;
+
 typedef enum
 {
     SPR_TROO,

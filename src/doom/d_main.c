@@ -72,6 +72,7 @@
 #include "r_local.h"
 #include "statdump.h"
 
+#include "rand.h"
 
 #include "d_main.h"
 

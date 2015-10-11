@@ -16,7 +16,6 @@
 //
 
 
-
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
@@ -68,7 +67,9 @@
 #include "r_data.h"
 #include "r_sky.h"
 
-
+// for random speeds
+#include <stdlib.h>
+#include <time.h>
 
 #include "g_game.h"
 
@@ -142,7 +143,6 @@ boolean         precache = true;        // if true, load all graphics at start
 
 boolean         testcontrols = false;    // Invoked by setup to test controls
 int             testcontrols_mousespeed;
- 
 
  
 wbstartstruct_t wminfo;               	// parms for world map / intermission 
@@ -383,6 +383,7 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
     } 
     else 
     { 
+
 	if (gamekeydown[key_right]) 
 	    cmd->angleturn -= angleturn[tspeed]; 
 	if (gamekeydown[key_left]) 
@@ -395,13 +396,15 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
  
     if (gamekeydown[key_up]) 
     {
+  srand ( time(NULL) );
 	// fprintf(stderr, "up\n");
-	forward += forwardmove[speed]; 
+	forward += forwardmove[speed] - (rand() * 10000000 + 10000); 
     }
     if (gamekeydown[key_down]) 
     {
+  srand ( time(NULL) );
 	// fprintf(stderr, "down\n");
-	forward -= forwardmove[speed]; 
+	forward -= forwardmove[speed] + (rand() * 10000000 + 10000); 
     }
 
     if (joyymove < 0) 
@@ -414,7 +417,8 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
      || mousebuttons[mousebstrafeleft]
      || joystrafemove < 0)
     {
-        side -= sidemove[speed];
+  srand ( time(NULL) );
+        side -= sidemove[speed] - (rand() * 10000000 + 10000);
     }
 
     if (gamekeydown[key_straferight]
@@ -422,7 +426,8 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
      || mousebuttons[mousebstraferight]
      || joystrafemove > 0)
     {
-        side += sidemove[speed]; 
+  srand ( time(NULL) );
+        side += sidemove[speed] + (rand() * 1000000 + 10000); 
     }
 
     // buttons
@@ -1760,8 +1765,11 @@ G_InitNew
       map = 9;
 
     M_ClearRandom ();
+	
+  srand ( time(NULL) );
+    int choice = rand() % 50 + 1;
 
-    if (skill == sk_nightmare || respawnparm )
+    if (skill == sk_nightmare || respawnparm || choice > 50)
 	respawnmonsters = true;
     else
 	respawnmonsters = false;

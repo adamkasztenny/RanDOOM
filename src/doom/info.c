@@ -21,13 +21,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// For random seeding
+#include <time.h>
+
 // Data.
 #include "sounds.h"
 #include "m_fixed.h"
 
 #include "info.h"
 
+#include "rand.h"
+
 #include "p_mobj.h"
+
+   //srand(time(NULL)); // seed the random number generator
+   // player_health = (rand() % 51) + 50; // at most 100
 
 char *sprnames[] = {
     "TROO","SHTG","PUNG","PISG","PISF","SHTF","SHT2","CHGG","CHGF","MISG",
@@ -1100,7 +1108,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {
     {		// MT_PLAYER
 	-1,		// doomednum
 	S_PLAY,		// spawnstate
-	100,		// spawnhealth
+	50, //player_health,		// spawnhealth
 	S_PLAY_RUN1,		// seestate
 	sfx_None,		// seesound
 	0,		// reactiontime
