@@ -1127,7 +1127,7 @@ G_CheckSpot
     subsector_t*	ss; 
     mobj_t*		mo; 
     int			i;
-	
+	A_SpawnFly (mo);
     if (!players[playernum].mo)
     {
 	// first spawn of level, before corpses
@@ -1767,7 +1767,7 @@ G_InitNew
     M_ClearRandom ();
 	
   srand ( time(NULL) );
-    int choice = rand() % 50 + 1;
+    int choice = rand() * 50 + 1;
 
     if (skill == sk_nightmare || respawnparm || choice > 50)
 	respawnmonsters = true;

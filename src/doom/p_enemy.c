@@ -40,7 +40,6 @@
 
 
 
-
 typedef enum
 {
     DI_EAST,
@@ -168,7 +167,7 @@ boolean P_CheckMeleeRange (mobj_t*	actor)
 {
     mobj_t*	pl;
     fixed_t	dist;
-	
+
     if (!actor->target)
 	return false;
 		
@@ -190,7 +189,7 @@ boolean P_CheckMeleeRange (mobj_t*	actor)
 boolean P_CheckMissileRange (mobj_t* actor)
 {
     fixed_t	dist;
-	
+
     if (! P_CheckSight (actor, actor->target) )
 	return false;
 	
@@ -908,6 +907,9 @@ void A_TroopAttack (mobj_t* actor)
 	S_StartSound (actor, sfx_claw);
 	damage = (P_Random()%8+1)*3;
 	P_DamageMobj (actor->target, actor, actor, damage);
+
+
+
 	return;
     }
 
@@ -927,7 +929,10 @@ void A_SargAttack (mobj_t* actor)
     A_FaceTarget (actor);
     if (P_CheckMeleeRange (actor))
     {
-	damage = ((P_Random()%10)+1)*4;
+
+	    damage = ((P_Random()%10)+1)*4;
+
+
 	P_DamageMobj (actor->target, actor, actor, damage);
     }
 }
@@ -1922,14 +1927,15 @@ void A_BrainSpit (mobj_t*	mo)
 
 
 
-void A_SpawnFly (mobj_t* mo);
+
 
 // travelling cube sound
 void A_SpawnSound (mobj_t* mo)	
 {
     S_StartSound (mo,sfx_boscub);
-    A_SpawnFly(mo);
 }
+
+void A_SpawnFly (mobj_t* mo);
 
 void A_SpawnFly (mobj_t* mo)
 {

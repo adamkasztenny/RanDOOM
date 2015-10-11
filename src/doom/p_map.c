@@ -277,7 +277,7 @@ boolean PIT_CheckThing (mobj_t* thing)
     fixed_t		blockdist;
     boolean		solid;
     int			damage;
-		
+
     if (!(thing->flags & (MF_SOLID|MF_SPECIAL|MF_SHOOTABLE) ))
 	return true;
     
@@ -1011,6 +1011,7 @@ boolean PTR_ShootTraverse (intercept_t* in)
 
 	// Spawn bullet puffs.
 	P_SpawnPuff (x,y,z);
+
 	
 	// don't go any farther
 	return false;	
@@ -1049,12 +1050,10 @@ boolean PTR_ShootTraverse (intercept_t* in)
     // depending on target type.
     if (in->d.thing->flags & MF_NOBLOOD)
 	P_SpawnPuff (x,y,z);
+
+
     else
 	P_SpawnBlood (x,y,z, la_damage);
-
-    if (la_damage)
-	P_DamageMobj (th, shootthing, shootthing, la_damage);
-
     // don't go any farther
     return false;
 	

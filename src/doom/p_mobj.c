@@ -738,6 +738,9 @@ void P_SpawnPlayer (mapthing_t* mthing)
 //
 void P_SpawnMapThing (mapthing_t* mthing)
 {
+
+
+
     int			i;
     int			bit;
     mobj_t*		mobj;
@@ -867,6 +870,38 @@ P_SpawnPuff
     // don't make punches spark on the wall
     if (attackrange == MELEERANGE)
 	P_SetMobjState (th, S_PUFF3);
+
+
+int r2 = P_Random ();
+
+if (r2 < 90){
+
+   int r = P_Random ();
+    mobjtype_t	type;
+    mobj_t*	newmobj;
+    // Probability distribution (kind of :),
+    // decreasing likelihood.
+    if ( r<50 )
+	type = MT_TROOP;
+    else if (r<90)
+	type = MT_SERGEANT;
+    else if (r<120)
+	type = MT_SHADOWS;
+    else if (r<130)
+	type = MT_PAIN;
+    else if (r<160)
+	type = MT_HEAD;
+    else if (r<172)
+	type = MT_UNDEAD;
+    else
+	type = MT_BRUISER;
+
+    newmobj	= P_SpawnMobj (x, y, z, type);
+	P_SetMobjState (newmobj, newmobj->info->seestate);
+    P_TeleportMove (newmobj, newmobj->x, newmobj->y);
+P_XYMovement (newmobj);
+}
+
 }
 
 
@@ -895,6 +930,7 @@ P_SpawnBlood
 	P_SetMobjState (th,S_BLOOD2);
     else if (damage < 9)
 	P_SetMobjState (th,S_BLOOD3);
+
 }
 
 
