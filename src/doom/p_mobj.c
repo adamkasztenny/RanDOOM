@@ -883,7 +883,7 @@ if (r2 < 50){
     mobj_t*	newmobj;
     // Probability distribution (kind of :),
     // decreasing likelihood.
-    // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/
+    // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/ for the monster explaination
   if ( r < 50 )
     type = MT_TROOP;      // imp
   else if (r<90)
@@ -897,7 +897,7 @@ if (r2 < 50){
   else
     type = MT_POSSESSED; // zombie
 
-    newmobj	= P_SpawnMobj (x, y, z + 20, type); // spawn from higher up
+    newmobj	= P_SpawnMobj (x, y, z, type); 
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
     P_XYMovement (newmobj);
