@@ -69,10 +69,17 @@ P_SpawnRand(fixed_t z)
     type = MT_SHOTGUY;    //shotguy
   else
     type = MT_POSSESSED; // zombie
+
+    int one = P_Random();
+    int two = P_Random();
+    int three = P_Random();
+
+    int four = P_Random();
+    int five = P_Random();
+    int six = P_Random();
     
-    srand(time(NULL)); // seed the generator
     //newmobj     = P_SpawnMobj  (P_Random() + rand() * rand() * j + j, P_Random() + rand () * rand() + j * j, z, type);
-    newmobj     = P_SpawnMobj  (P_Random() + P_Random() * P_Random() * j + j, P_Random() + P_Random() * P_Random() * j + j, z, type);
+    newmobj     = P_SpawnMobj  (one + two * three * j + j, four + five * six * j + j, z, type);
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
     }
@@ -107,9 +114,16 @@ P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
   else
     type = MT_POSSESSED; // zombie
     
-    srand(time(NULL)); // seed the generator
-    newmobj     = P_SpawnMobj  (x + P_Random() + P_Random() * P_Random() * j + j, y + P_Random() + P_Random() * P_Random() * j + j, z, type);
-    //newmobj     = P_SpawnMobj  (x + P_Random() + rand() * rand() * j + j, y +P_Random() + rand() * rand() * j + j, z, type);
+    int one = P_Random ();
+    int two = P_Random ();
+    int three = P_Random ();
+
+    int four = P_Random ();
+    int five = P_Random ();
+    int six = P_Random ();
+    
+    //newmobj     = P_SpawnMobj  (P_Random() + rand() * rand() * j + j, P_Random() + rand () * rand() + j * j, z, type);
+    newmobj     = P_SpawnMobj  (x + one + two * three * j + j, y + four + five * six * j + j, z, type);
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
     }
@@ -1032,7 +1046,8 @@ P_SpawnBlood
     else if (damage < 9)
 	P_SetMobjState (th,S_BLOOD3);
     
-    //P_SpawnRand(z); // every time you shoot something, a new monster is spawned!
+    // causes crashing
+    // P_SpawnRand(z); // every time you shoot something, a new monster is spawned!
 
 }
 
