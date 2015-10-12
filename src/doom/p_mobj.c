@@ -902,6 +902,14 @@ if (r2 < 90){
 P_XYMovement (newmobj);
 }
 
+	
+    z += ((P_Random()-P_Random())<<10);
+    th = P_SpawnMobj (x,y,z, MT_BLOOD);
+    th->momz = FRACUNIT*2;
+    th->tics -= P_Random()&3;
+
+    if (th->tics < 1)
+	th->tics = 1;
 }
 
 

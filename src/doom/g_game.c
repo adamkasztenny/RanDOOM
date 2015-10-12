@@ -1127,7 +1127,6 @@ G_CheckSpot
     subsector_t*	ss; 
     mobj_t*		mo; 
     int			i;
-	A_SpawnFly (mo);
     if (!players[playernum].mo)
     {
 	// first spawn of level, before corpses

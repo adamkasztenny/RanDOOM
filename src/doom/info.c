@@ -1108,7 +1108,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {
     {		// MT_PLAYER
 	-1,		// doomednum
 	S_PLAY,		// spawnstate
-	50, //player_health,		// spawnhealth
+	100,		// spawnhealth
 	S_PLAY_RUN1,		// seestate
 	sfx_None,		// seesound
 	0,		// reactiontime
