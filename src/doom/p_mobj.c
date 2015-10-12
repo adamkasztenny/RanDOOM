@@ -49,6 +49,7 @@ void
 P_SpawnRand(fixed_t z)
 { 
    int j;
+   srand(time(NULL));
    for (j = 0; j < 2; j++) {
    int r = P_Random ();
    int r2 = P_Random ();
@@ -69,17 +70,8 @@ P_SpawnRand(fixed_t z)
     type = MT_SHOTGUY;    //shotguy
   else
     type = MT_POSSESSED; // zombie
-
-    int one = P_Random();
-    int two = P_Random();
-    int three = P_Random();
-
-    int four = P_Random();
-    int five = P_Random();
-    int six = P_Random();
     
-    //newmobj     = P_SpawnMobj  (P_Random() + rand() * rand() * j + j, P_Random() + rand () * rand() + j * j, z, type);
-    newmobj     = P_SpawnMobj  (one + two * three * j + j, four + five * six * j + j, z, type);
+   newmobj = P_SpawnMobj (P_Random() + P_Random() * P_Random() * j + j, P_Random() + P_Random() * P_Random() * j + j, z, type);
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
     }
@@ -94,7 +86,8 @@ P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
 {
 
    int j;
-   for (j = 0; j < 2; j++) {
+   srand(time(NULL));
+   for (j = 0; j < 3; j++) {
    int r = P_Random ();
    int r2 = P_Random ();
     mobjtype_t  type;
@@ -114,16 +107,7 @@ P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
   else
     type = MT_POSSESSED; // zombie
     
-    int one = P_Random ();
-    int two = P_Random ();
-    int three = P_Random ();
-
-    int four = P_Random ();
-    int five = P_Random ();
-    int six = P_Random ();
-    
-    //newmobj     = P_SpawnMobj  (P_Random() + rand() * rand() * j + j, P_Random() + rand () * rand() + j * j, z, type);
-    newmobj     = P_SpawnMobj  (x + one + two * three * j + j, y + four + five * six * j + j, z, type);
+    newmobj = P_SpawnMobj (x + P_Random() + P_Random() * P_Random() * j + j + (rand() % 5), y + P_Random() + P_Random() * P_Random() * j + j + (rand() % 5), z, type);
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
     }
@@ -978,19 +962,13 @@ if (r2 < 50){
     // decreasing likelihood.
     // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/ for the monster explaination
   if ( r < 50 )
-    type = MT_MISC24;     
+    type = MT_CLIP;     
   else if (r<90)
-    type = MT_MISC22;  
+    type = MT_MISC11;  
   else if (r<120)
-    type = MT_MISC13;   
-  else if (r < 140)
-    type = MT_MISC21;    
-  else
-    type = MT_MISC14;
+    type = MT_MISC10;   
 
     newmobj	= P_SpawnMobj (x, y, z, type); 
-    P_SetMobjState (newmobj, newmobj->info->seestate);
-    P_TeleportMove (newmobj, newmobj->x, newmobj->y);
 }
 
 else if (r2 < 90){
