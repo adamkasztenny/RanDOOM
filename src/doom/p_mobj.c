@@ -882,7 +882,7 @@ if (r2 < 50){
     // Probability distribution (kind of :),
     // decreasing likelihood.
 // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/
-  if ( r<50 )
+  if ( r < 50 )
     type = MT_TROOP;      // imp
   else if (r<90)
     type = MT_SERGEANT;   // demon
@@ -890,6 +890,8 @@ if (r2 < 50){
     type = MT_SHADOWS;    // spectre
   else if (r < 140)
     type = MT_SHOTGUY;    //shotguy
+  else if (r < 160) // barrel
+     type = 2035;
   else
     type = MT_POSSESSED; // zombie
 
@@ -899,6 +901,27 @@ if (r2 < 50){
 P_XYMovement (newmobj);
 }
 
+else if (r2 < 90){
+
+   int r = P_Random ();
+    mobjtype_t	type;
+    mobj_t*	newmobj;
+    // Probability distribution (kind of :),
+    // decreasing likelihood.
+  if ( r<50 )
+    type = MT_SHOTGUN;     
+  else if (r<90)
+    type = MT_CHAINGUN;   
+  else if (r<120)
+    type = MT_CLIP;  
+  else if (r < 140)
+    type = MT_MISC23;   
+  else
+    type = MT_MISC20; 
+
+    newmobj	= P_SpawnMobj (x, y, z, type);
+
+}
 	
     z += ((P_Random()-P_Random())<<10);
     th = P_SpawnMobj (x,y,z, MT_BLOOD);
