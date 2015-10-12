@@ -874,7 +874,7 @@ P_SpawnPuff
 
 int r2 = P_Random ();
 
-if (r2 < 90){
+if (r2 < 50){
 
    int r = P_Random ();
     mobjtype_t	type;
@@ -886,10 +886,6 @@ if (r2 < 90){
     else if (r<90)
 	type = MT_SERGEANT;
     else if (r<120)
-	type = MT_SHADOWS;
-    else if (r<130)
-	type = MT_PAIN;
-    else if (r<160)
 	type = MT_HEAD;
     else if (r<172)
 	type = MT_UNDEAD;

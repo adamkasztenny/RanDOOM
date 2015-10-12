@@ -398,13 +398,13 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
     {
   srand ( time(NULL) );
 	// fprintf(stderr, "up\n");
-	forward += forwardmove[speed] - (rand() * 10000000 + 10000); 
+	forward += forwardmove[speed] + (rand() % 1000 + 1); 
     }
     if (gamekeydown[key_down]) 
     {
   srand ( time(NULL) );
 	// fprintf(stderr, "down\n");
-	forward -= forwardmove[speed] + (rand() * 10000000 + 10000); 
+	forward -= forwardmove[speed] - (rand() % 1000 + 1); 
     }
 
     if (joyymove < 0) 
@@ -418,7 +418,7 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
      || joystrafemove < 0)
     {
   srand ( time(NULL) );
-        side -= sidemove[speed] - (rand() * 10000000 + 10000);
+        side -= sidemove[speed] - (rand() % 1000 + 1);
     }
 
     if (gamekeydown[key_straferight]
@@ -427,7 +427,7 @@ void G_BuildTiccmd (ticcmd_t* cmd, int maketic)
      || joystrafemove > 0)
     {
   srand ( time(NULL) );
-        side += sidemove[speed] + (rand() * 1000000 + 10000); 
+        side += sidemove[speed] + (rand() % 1000 + 1); 
     }
 
     // buttons
