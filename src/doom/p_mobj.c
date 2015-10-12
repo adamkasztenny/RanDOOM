@@ -33,8 +33,8 @@
 
 #include "doomstat.h"
 
-
-
+#include <time.h>
+#include <stdlib.h>
 
 void G_PlayerReborn (int player);
 void P_SpawnMapThing (mapthing_t*	mthing);
@@ -64,8 +64,9 @@ P_SpawnRand(fixed_t z)
     type = MT_SHOTGUY;    //shotguy
   else
     type = MT_POSSESSED; // zombie
-
-    newmobj     = P_SpawnMobj  (P_Random(), P_Random(), z, type);
+    
+    srand(time(NULL)); // seed the generator
+    newmobj     = P_SpawnMobj  (rand() * 3450 + 1, rand () * 3015 + 1, z, type);
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
 }
