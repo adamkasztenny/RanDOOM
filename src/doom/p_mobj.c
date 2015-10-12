@@ -39,6 +39,36 @@
 void G_PlayerReborn (int player);
 void P_SpawnMapThing (mapthing_t*	mthing);
 
+void P_SpawnRand(fixed_t z); // new function
+
+//
+// P_SpawnRand
+// Spawns a monster randomly on the map
+void
+P_SpawnRand(fixed_t z)
+{
+
+   int r = P_Random ();
+    mobjtype_t  type;
+    mobj_t*     newmobj;
+    // Probability distribution (kind of :),
+    // decreasing likelihood.
+    // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/ for the monster explaination
+  if ( r < 50 )
+    type = MT_TROOP;      // imp
+  else if (r<90)
+    type = MT_SERGEANT;   // demon
+  else if (r<120)
+    type = MT_SHADOWS;    // spectre
+  else if (r < 140)
+    type = MT_SHOTGUY;    //shotguy
+  else
+    type = MT_POSSESSED; // zombie
+
+    newmobj     = P_SpawnMobj  (P_Random(), P_Random(), z, type);
+    P_SetMobjState (newmobj, newmobj->info->seestate);
+    P_TeleportMove (newmobj, newmobj->x, newmobj->y);
+}
 
 //
 // P_SetMobjState
@@ -892,18 +922,12 @@ if (r2 < 50){
     type = MT_SHADOWS;    // spectre
   else if (r < 140)
     type = MT_SHOTGUY;    //shotguy
-  else if (r < 160) // barrel
-     type = 2035;
   else
     type = MT_POSSESSED; // zombie
 
     newmobj	= P_SpawnMobj (x, y, z, type); 
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
-    P_XYMovement (newmobj);
-    P_TryWalk(newmobj);
-    P_Move (newmobj);
-    A_Chase (newmobj);
 }
 
 else if (r2 < 90){
@@ -917,8 +941,8 @@ else if (r2 < 90){
     type = MT_SHOTGUN;     
   else if (r<90)
     type = MT_CHAINGUN;   
-  else if (r<120)
-    type = MT_CLIP;  
+  else
+    type = MT_CLIP; 
 
     newmobj	= P_SpawnMobj (x, y, z, type);
 
@@ -932,7 +956,6 @@ else if (r2 < 90){
     if (th->tics < 1)
 	th->tics = 1;
 }
-
 
 
 //
@@ -959,6 +982,8 @@ P_SpawnBlood
 	P_SetMobjState (th,S_BLOOD2);
     else if (damage < 9)
 	P_SetMobjState (th,S_BLOOD3);
+    
+    P_SpawnRand(z); // every time you shoot something, a new monster is spawned!
 
 }
 
