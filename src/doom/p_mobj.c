@@ -53,6 +53,7 @@ P_SpawnRand(fixed_t z)
    for (j = 0; j < 2; j++) {
    int r = P_Random ();
    int r2 = P_Random ();
+   int fairness = P_Random ();
  
     mobjtype_t  type;
     mobj_t*     newmobj;
@@ -68,8 +69,13 @@ P_SpawnRand(fixed_t z)
     type = MT_SHADOWS;    // spectre
   else if (r < 140)
     type = MT_SHOTGUY;    //shotguy
+  else if (r < 180 && fairness < 100)
+    type = MT_HEAD;       // cacodemon
+  else if (r < 220 && fairness < 200)
+    type = MT_BRUISER;    // baron of hell
   else
     type = MT_POSSESSED; // zombie
+
     
    newmobj = P_SpawnMobj (P_Random() + P_Random() * P_Random() * j + j, P_Random() + P_Random() * P_Random() * j + j, z, type);
     P_SetMobjState (newmobj, newmobj->info->seestate);
@@ -87,7 +93,7 @@ P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
 
    int j;
    srand(time(NULL));
-   for (j = 0; j < 3; j++) {
+   for (j = 0; j < 2; j++) {
    int r = P_Random ();
    int r2 = P_Random ();
     mobjtype_t  type;
@@ -104,6 +110,12 @@ P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
     type = MT_SHADOWS;    // spectre
   else if (r < 140)
     type = MT_SHOTGUY;    //shotguy
+  else if ( r < 160)
+    type = MT_POSSESSED; // zombie
+  else if (r < 180)
+    type = MT_HEAD;       // cacodemon
+  else if (r < 200)
+    type = MT_BRUISER;    // baron of hell
   else
     type = MT_POSSESSED; // zombie
     
