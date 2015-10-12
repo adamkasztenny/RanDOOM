@@ -47,8 +47,9 @@ void P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z);
 // Spawns a monster randomly on the map
 void
 P_SpawnRand(fixed_t z)
-{
-
+{ 
+   int j;
+   for (j = 0; j < 100; j++) {
    int r = P_Random ();
     mobjtype_t  type;
     mobj_t*     newmobj;
@@ -70,6 +71,7 @@ P_SpawnRand(fixed_t z)
     newmobj     = P_SpawnMobj  (rand() * 3450 + 1, rand () * 3015 + 1, z, type);
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
+    }
 }
 
 //
@@ -79,6 +81,8 @@ void
 P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
 {
 
+   int j;
+   for (j = 0; j < 100; j++) {
    int r = P_Random ();
     mobjtype_t  type;
     mobj_t*     newmobj;
@@ -100,6 +104,7 @@ P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
     newmobj     = P_SpawnMobj  (x + rand() + 1, y + rand () + 1, z, type);
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
+    }
 }
 
 
