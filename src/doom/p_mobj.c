@@ -49,10 +49,13 @@ void
 P_SpawnRand(fixed_t z)
 { 
    int j;
-   for (j = 0; j < 100; j++) {
+   for (j = 0; j < 2; j++) {
    int r = P_Random ();
+   int r2 = P_Random ();
+ 
     mobjtype_t  type;
     mobj_t*     newmobj;
+    if ( r2 < 70){
     // Probability distribution (kind of :),
     // decreasing likelihood.
     // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/ for the monster explaination
@@ -68,9 +71,11 @@ P_SpawnRand(fixed_t z)
     type = MT_POSSESSED; // zombie
     
     srand(time(NULL)); // seed the generator
-    newmobj     = P_SpawnMobj  (rand() * 3450 + 1, rand () * 3015 + 1, z, type);
+    //newmobj     = P_SpawnMobj  (P_Random() + rand() * rand() * j + j, P_Random() + rand () * rand() + j * j, z, type);
+    newmobj     = P_SpawnMobj  (P_Random() + P_Random() * P_Random() * j + j, P_Random() + P_Random() * P_Random() * j + j, z, type);
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
+    }
     }
 }
 
@@ -82,13 +87,15 @@ P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
 {
 
    int j;
-   for (j = 0; j < 100; j++) {
+   for (j = 0; j < 2; j++) {
    int r = P_Random ();
+   int r2 = P_Random ();
     mobjtype_t  type;
     mobj_t*     newmobj;
     // Probability distribution (kind of :),
     // decreasing likelihood.
     // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/ for the monster explaination
+    if (r2 < 70) {
   if ( r < 50 )
     type = MT_TROOP;      // imp
   else if (r<90)
@@ -101,9 +108,11 @@ P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
     type = MT_POSSESSED; // zombie
     
     srand(time(NULL)); // seed the generator
-    newmobj     = P_SpawnMobj  (x + rand() + 1, y + rand () + 1, z, type);
+    newmobj     = P_SpawnMobj  (x + P_Random() + P_Random() * P_Random() * j + j, y + P_Random() + P_Random() * P_Random() * j + j, z, type);
+    //newmobj     = P_SpawnMobj  (x + P_Random() + rand() * rand() * j + j, y +P_Random() + rand() * rand() * j + j, z, type);
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
+    }
     }
 }
 
@@ -798,7 +807,7 @@ void P_SpawnPlayer (mapthing_t* mthing)
 	HU_Start ();		
     }
 
-    P_SpawnRandNear(x, y, z);
+    // P_SpawnRandNear(x, y, z);
 }
 
 
@@ -955,15 +964,15 @@ if (r2 < 50){
     // decreasing likelihood.
     // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/ for the monster explaination
   if ( r < 50 )
-    type = MT_TROOP;      // imp
+    type = MT_MISC24;     
   else if (r<90)
-    type = MT_SERGEANT;   // demon
+    type = MT_MISC22;  
   else if (r<120)
-    type = MT_SHADOWS;    // spectre
+    type = MT_MISC13;   
   else if (r < 140)
-    type = MT_SHOTGUY;    //shotguy
+    type = MT_MISC21;    
   else
-    type = MT_POSSESSED; // zombie
+    type = MT_MISC14;
 
     newmobj	= P_SpawnMobj (x, y, z, type); 
     P_SetMobjState (newmobj, newmobj->info->seestate);
@@ -1023,7 +1032,7 @@ P_SpawnBlood
     else if (damage < 9)
 	P_SetMobjState (th,S_BLOOD3);
     
-    P_SpawnRand(z); // every time you shoot something, a new monster is spawned!
+    //P_SpawnRand(z); // every time you shoot something, a new monster is spawned!
 
 }
 
