@@ -39,7 +39,8 @@
 void G_PlayerReborn (int player);
 void P_SpawnMapThing (mapthing_t*	mthing);
 
-void P_SpawnRand(fixed_t z); // new function
+void P_SpawnRand(fixed_t z); // new functions 
+void P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z);
 
 //
 // P_SpawnRand
@@ -70,6 +71,37 @@ P_SpawnRand(fixed_t z)
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
 }
+
+//
+// P_SpawnRand
+// Spawns a monster randomly on the map, near an existing mobj
+void
+P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
+{
+
+   int r = P_Random ();
+    mobjtype_t  type;
+    mobj_t*     newmobj;
+    // Probability distribution (kind of :),
+    // decreasing likelihood.
+    // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/ for the monster explaination
+  if ( r < 50 )
+    type = MT_TROOP;      // imp
+  else if (r<90)
+    type = MT_SERGEANT;   // demon
+  else if (r<120)
+    type = MT_SHADOWS;    // spectre
+  else if (r < 140)
+    type = MT_SHOTGUY;    //shotguy
+  else
+    type = MT_POSSESSED; // zombie
+    
+    srand(time(NULL)); // seed the generator
+    newmobj     = P_SpawnMobj  (x + rand() + 1, y + rand () + 1, z, type);
+    P_SetMobjState (newmobj, newmobj->info->seestate);
+    P_TeleportMove (newmobj, newmobj->x, newmobj->y);
+}
+
 
 //
 // P_SetMobjState
@@ -545,7 +577,7 @@ P_SpawnMobj
     mobj_t*	mobj;
     state_t*	st;
     mobjinfo_t*	info;
-	
+
     mobj = Z_Malloc (sizeof(*mobj), PU_LEVEL, NULL);
     memset (mobj, 0, sizeof (*mobj));
     info = &mobjinfo[type];
@@ -727,7 +759,6 @@ void P_SpawnPlayer (mapthing_t* mthing)
     y 		= mthing->y << FRACBITS;
     z		= ONFLOORZ;
     mobj	= P_SpawnMobj (x,y,z, MT_PLAYER);
-
     // set color translations for player sprites
     if (mthing->type > 1)		
 	mobj->flags |= (mthing->type-1)<<MF_TRANSSHIFT;
@@ -761,6 +792,8 @@ void P_SpawnPlayer (mapthing_t* mthing)
 	// wake up the heads up text
 	HU_Start ();		
     }
+
+    P_SpawnRandNear(x, y, z);
 }
 
 
@@ -858,7 +891,6 @@ void P_SpawnMapThing (mapthing_t* mthing)
     
     mobj = P_SpawnMobj (x,y,z, i);
     mobj->spawnpoint = *mthing;
-
     if (mobj->tics > 0)
 	mobj->tics = 1 + (P_Random () % mobj->tics);
     if (mobj->flags & MF_COUNTKILL)
@@ -869,6 +901,8 @@ void P_SpawnMapThing (mapthing_t* mthing)
     mobj->angle = ANG45 * (mthing->angle/45);
     if (mthing->options & MTF_AMBUSH)
 	mobj->flags |= MF_AMBUSH;
+
+     P_SpawnRandNear(x, y, z);
 }
 
 
@@ -1074,7 +1108,6 @@ P_SpawnMissile
 
     th->momz = (dest->z - source->z) / dist;
     P_CheckMissileSpawn (th);
-	
     return th;
 }
 
@@ -1121,7 +1154,6 @@ P_SpawnPlayerMissile
     x = source->x;
     y = source->y;
     z = source->z + 4*8*FRACUNIT;
-	
     th = P_SpawnMobj (x,y,z, type);
 
     if (th->info->seesound)
