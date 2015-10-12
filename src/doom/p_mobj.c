@@ -881,16 +881,17 @@ if (r2 < 50){
     mobj_t*	newmobj;
     // Probability distribution (kind of :),
     // decreasing likelihood.
-    if ( r<50 )
-	type = MT_TROOP;
-    else if (r<90)
-	type = MT_SERGEANT;
-    else if (r<120)
-	type = MT_HEAD;
-    else if (r<172)
-	type = MT_UNDEAD;
-    else
-	type = MT_BRUISER;
+// big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/
+  if ( r<50 )
+    type = MT_TROOP;      // imp
+  else if (r<90)
+    type = MT_SERGEANT;   // demon
+  else if (r<120)
+    type = MT_SHADOWS;    // spectre
+  else if (r < 140)
+    type = MT_SHOTGUY;    //shotguy
+  else
+    type = MT_POSSESSED; // zombie
 
     newmobj	= P_SpawnMobj (x, y, z, type);
 	P_SetMobjState (newmobj, newmobj->info->seestate);
