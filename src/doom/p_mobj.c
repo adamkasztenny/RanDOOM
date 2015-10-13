@@ -77,7 +77,7 @@ P_SpawnRand(fixed_t z)
     type = MT_POSSESSED; // zombie
 
     
-   newmobj = P_SpawnMobj (P_Random() + P_Random() * P_Random() * j + j, P_Random() + P_Random() * P_Random() * j + j, z, type);
+   newmobj = P_SpawnMobj (30 + P_Random() + P_Random() * P_Random() * j + j, P_Random() + P_Random() * P_Random() * j + j, z, type);
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
     }
@@ -977,7 +977,7 @@ if (r2 < 50){
     type = MT_CLIP;     
   else if (r<90)
     type = MT_MISC11;  
-  else if (r<120)
+  else
     type = MT_MISC10;   
 
     newmobj	= P_SpawnMobj (x, y, z, type); 
