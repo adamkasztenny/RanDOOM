@@ -50,7 +50,7 @@ P_SpawnRand(fixed_t z)
 { 
    int j;
    srand(time(NULL));
-   for (j = 0; j < 2; j++) {
+   for (j = 1; j < 3; j++) {
    int r = P_Random ();
    int r2 = P_Random ();
    int fairness = P_Random ();
@@ -77,7 +77,7 @@ P_SpawnRand(fixed_t z)
     type = MT_POSSESSED; // zombie
 
     
-   newmobj = P_SpawnMobj (30 + P_Random() + P_Random() * P_Random() * j + j, P_Random() + P_Random() * P_Random() * j + j, z, type);
+   newmobj = P_SpawnMobj (30 + P_Random() + P_Random() * P_Random() * j + j, 20 + P_Random() + P_Random() * P_Random() * j + j, z, type);
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
     }
@@ -93,7 +93,7 @@ P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
 
    int j;
    srand(time(NULL));
-   for (j = 0; j < 2; j++) {
+   for (j = 1; j < 3; j++) {
    int r = P_Random ();
    int r2 = P_Random ();
     mobjtype_t  type;
