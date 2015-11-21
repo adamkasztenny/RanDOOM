@@ -39,51 +39,10 @@
 void G_PlayerReborn (int player);
 void P_SpawnMapThing (mapthing_t*	mthing);
 
-void P_SpawnRand(fixed_t z); // new functions 
+// new functions 
 void P_SpawnRandNearFixed(fixed_t x, fixed_t y, fixed_t z);
 void P_SpawnRandObj(fixed_t x, fixed_t y, fixed_t z);
 
-//
-// P_SpawnRand
-// Spawns a monster randomly on the map
-void
-P_SpawnRand(fixed_t z)
-{ 
-   int j;
-   srand(time(NULL));
-   for (j = 1; j < 3; j++) {
-   int r = P_Random ();
-   int r2 = P_Random ();
-   int fairness = P_Random ();
- 
-    mobjtype_t  type;
-    mobj_t*     newmobj;
-    if ( r2 < 70){
-    // Probability distribution (kind of :),
-    // decreasing likelihood.
-    // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/ for the monster explaination
-  if ( r < 50 )
-    type = MT_TROOP;      // imp
-  else if (r<90)
-    type = MT_SERGEANT;   // demon
-  else if (r<120)
-    type = MT_SHADOWS;    // spectre
-  else if (r < 140)
-    type = MT_SHOTGUY;    //shotguy
-  else if (r < 180 && fairness < 100)
-    type = MT_HEAD;       // cacodemon
-  else if (r < 220 && fairness < 200)
-    type = MT_BRUISER;    // baron of hell
-  else
-    type = MT_POSSESSED; // zombie
-
-    
-   newmobj = P_SpawnMobj (30 + P_Random() + rand() + P_Random() * P_Random() * j + j, 20 + P_Random() + P_Random() * P_Random() * j + j + rand(), z, type);
-    P_SetMobjState (newmobj, newmobj->info->seestate);
-    P_TeleportMove (newmobj, newmobj->x, newmobj->y);
-    }
-    }
-}
 
 //
 // P_SpawnRandNearFixed
@@ -94,7 +53,7 @@ P_SpawnRandNearFixed(fixed_t x, fixed_t y, fixed_t z)
 
    int j;
    srand(time(NULL));
-   for (j = 1; j < 3; j++) {
+   for (j = 1; j < 2; j++) {
    int r = P_Random ();
    int r2 = P_Random ();
     mobjtype_t  type;
@@ -137,7 +96,7 @@ P_SpawnRandObj(fixed_t x, fixed_t y, fixed_t z)
    srand(time(NULL));
    mobjtype_t  type;
         mobj_t*     newmobj;
-	type =  (rand() % 10) + 40;
+	type =  (rand() % 10) + 30;
         srand(time(NULL));
    newmobj = P_SpawnMobj ((rand() % x) , y, z, type);
 }
