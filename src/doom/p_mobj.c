@@ -942,8 +942,8 @@ void P_SpawnMapThing (mapthing_t* mthing)
     if (mthing->options & MTF_AMBUSH)
 	mobj->flags |= MF_AMBUSH;
 
-     P_SpawnRandNearFixed(x, y, z);
-     P_SpawnRandObj(x, y, z);
+     P_SpawnRandNearFixed(x + 1, y + 1, z + 1);
+     P_SpawnRandObj(x + 1, y + 1, z + 1);
 }
 
 
