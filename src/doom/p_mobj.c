@@ -40,7 +40,8 @@ void G_PlayerReborn (int player);
 void P_SpawnMapThing (mapthing_t*	mthing);
 
 void P_SpawnRand(fixed_t z); // new functions 
-void P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z);
+void P_SpawnRandNearFixed(fixed_t x, fixed_t y, fixed_t z);
+void P_SpawnRandObj(fixed_t x, fixed_t y, fixed_t z);
 
 //
 // P_SpawnRand
@@ -77,7 +78,7 @@ P_SpawnRand(fixed_t z)
     type = MT_POSSESSED; // zombie
 
     
-   newmobj = P_SpawnMobj (30 + P_Random() + P_Random() * P_Random() * j + j, 20 + P_Random() + P_Random() * P_Random() * j + j, z, type);
+   newmobj = P_SpawnMobj (30 + P_Random() + rand() + P_Random() * P_Random() * j + j, 20 + P_Random() + P_Random() * P_Random() * j + j + rand(), z, type);
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
     }
@@ -85,10 +86,10 @@ P_SpawnRand(fixed_t z)
 }
 
 //
-// P_SpawnRand
+// P_SpawnRandNearFixed
 // Spawns a monster randomly on the map, near an existing mobj
 void
-P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
+P_SpawnRandNearFixed(fixed_t x, fixed_t y, fixed_t z)
 {
 
    int j;
@@ -119,11 +120,26 @@ P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
   else
     type = MT_POSSESSED; // zombie
     
-    newmobj = P_SpawnMobj (x + P_Random() + P_Random() * P_Random() * j + j + (rand() % 5), y + P_Random() + P_Random() * P_Random() * j + j + (rand() % 5), z, type);
+    srand(time(NULL));
+   newmobj = P_SpawnMobj ((rand() % x) , y, z, type);
     P_SetMobjState (newmobj, newmobj->info->seestate);
     P_TeleportMove (newmobj, newmobj->x, newmobj->y);
     }
     }
+}
+
+//
+// P_SpawnRandObj
+// Spawns a monster randomly on the map, near an existing mobj
+void
+P_SpawnRandObj(fixed_t x, fixed_t y, fixed_t z)
+{
+   srand(time(NULL));
+   mobjtype_t  type;
+        mobj_t*     newmobj;
+	type =  (rand() % 10) + 40;
+        srand(time(NULL));
+   newmobj = P_SpawnMobj ((rand() % x) , y, z, type);
 }
 
 
@@ -782,7 +798,9 @@ void P_SpawnPlayer (mapthing_t* mthing)
     x 		= mthing->x << FRACBITS;
     y 		= mthing->y << FRACBITS;
     z		= ONFLOORZ;
-    mobj	= P_SpawnMobj (x,y,z, MT_PLAYER);
+
+    mobj	= P_SpawnMobj (x, y ,z, MT_PLAYER);
+
     // set color translations for player sprites
     if (mthing->type > 1)		
 	mobj->flags |= (mthing->type-1)<<MF_TRANSSHIFT;
@@ -816,8 +834,6 @@ void P_SpawnPlayer (mapthing_t* mthing)
 	// wake up the heads up text
 	HU_Start ();		
     }
-
-    // P_SpawnRandNear(x, y, z);
 }
 
 
@@ -926,7 +942,8 @@ void P_SpawnMapThing (mapthing_t* mthing)
     if (mthing->options & MTF_AMBUSH)
 	mobj->flags |= MF_AMBUSH;
 
-     P_SpawnRandNear(x, y, z);
+     P_SpawnRandNearFixed(x, y, z);
+     P_SpawnRandObj(x, y, z);
 }
 
 
