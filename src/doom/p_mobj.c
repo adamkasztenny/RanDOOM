@@ -15,6 +15,7 @@
 // DESCRIPTION:
 //	Moving object handling. Spawn functions.
 //
+//
 
 #include <stdio.h>
 
@@ -40,7 +41,7 @@ void G_PlayerReborn (int player);
 void P_SpawnMapThing (mapthing_t*	mthing);
 
 // new functions 
-void P_SpawnRandNearFixed(fixed_t x, fixed_t y, fixed_t z);
+void P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z);
 void P_SpawnRandObj(fixed_t x, fixed_t y, fixed_t z);
 
 
@@ -48,56 +49,52 @@ void P_SpawnRandObj(fixed_t x, fixed_t y, fixed_t z);
 // P_SpawnRandNearFixed
 // Spawns a monster randomly on the map, near an existing mobj
 void
-P_SpawnRandNearFixed(fixed_t x, fixed_t y, fixed_t z)
+P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
 {
-
-   int j;
-   srand(time(NULL));
-   for (j = 1; j < 2; j++) {
-   int r = P_Random ();
-   int r2 = P_Random ();
+    srand(time(NULL));
+    int r = P_Random ();
+    int r2 = P_Random ();
     mobjtype_t  type;
     mobj_t*     newmobj;
     // Probability distribution (kind of :),
     // decreasing likelihood.
     // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/ for the monster explaination
     if (r2 < 70) {
-  if ( r < 50 )
-    type = MT_TROOP;      // imp
-  else if (r<90)
-    type = MT_SERGEANT;   // demon
-  else if (r<120)
-    type = MT_SHADOWS;    // spectre
-  else if (r < 140)
-    type = MT_SHOTGUY;    //shotguy
-  else if ( r < 160)
-    type = MT_POSSESSED; // zombie
-  else if (r < 180)
-    type = MT_HEAD;       // cacodemon
-  else if (r < 200)
-    type = MT_BRUISER;    // baron of hell
-  else
-    type = MT_POSSESSED; // zombie
+        if ( r < 50 )
+            type = MT_TROOP;      // imp
+        else if (r<90)
+            type = MT_SERGEANT;   // demon
+        else if (r<120)
+            type = MT_SHADOWS;    // spectre
+        else if (r < 140)
+            type = MT_SHOTGUY;    //shotguy
+        else if ( r < 160)
+            type = MT_POSSESSED; // zombie
+        else if (r < 180)
+            type = MT_HEAD;       // cacodemon
+        else if (r < 200)
+            type = MT_BRUISER;    // baron of hell
+        else
+            type = MT_POSSESSED; // zombie
     
-    srand(time(NULL));
-   newmobj = P_SpawnMobj ((rand() % x) , y, z, type);
-    P_SetMobjState (newmobj, newmobj->info->seestate);
-    P_TeleportMove (newmobj, newmobj->x, newmobj->y);
-    }
+        srand(time(NULL));
+        newmobj = P_SpawnMobj ((rand() % x) , y, z, type);
+        P_SetMobjState (newmobj, newmobj->info->seestate);
+        P_TeleportMove (newmobj, newmobj->x, newmobj->y);
     }
 }
 
 //
 // P_SpawnRandObj
-// Spawns a monster randomly on the map, near an existing mobj
+// Spawns an object randomly on the map, near an existing mobj.
 void
 P_SpawnRandObj(fixed_t x, fixed_t y, fixed_t z)
 {
    srand(time(NULL));
    mobjtype_t  type;
-        mobj_t*     newmobj;
-	type =  (rand() % 10) + 30;
-        srand(time(NULL));
+   mobj_t*     newmobj;
+   type =  (rand() % 10) + 35;
+   srand(time(NULL));
    newmobj = P_SpawnMobj ((rand() % x) , y, z, type);
 }
 
@@ -758,7 +755,8 @@ void P_SpawnPlayer (mapthing_t* mthing)
     y 		= mthing->y << FRACBITS;
     z		= ONFLOORZ;
 
-    mobj	= P_SpawnMobj (x, y ,z, MT_PLAYER);
+    srand (time(NULL));
+    mobj	= P_SpawnMobj (x, y , z , MT_PLAYER);
 
     // set color translations for player sprites
     if (mthing->type > 1)		
@@ -901,8 +899,10 @@ void P_SpawnMapThing (mapthing_t* mthing)
     if (mthing->options & MTF_AMBUSH)
 	mobj->flags |= MF_AMBUSH;
 
-     P_SpawnRandNearFixed(x + 1, y + 1, z + 1);
-     P_SpawnRandObj(x + 1, y + 1, z + 1);
+     int collisionOffset = 1;
+
+     P_SpawnRandNear(x + collisionOffset, y + collisionOffset, z + collisionOffset);
+     P_SpawnRandObj(x + collisionOffset, y + collisionOffset, z + collisionOffset); 
 }
 
 
@@ -1011,9 +1011,6 @@ P_SpawnBlood
 	P_SetMobjState (th,S_BLOOD2);
     else if (damage < 9)
 	P_SetMobjState (th,S_BLOOD3);
-    
-    // causes crashing
-    // P_SpawnRand(z); // every time you shoot something, a new monster is spawned!
 
 }
 
