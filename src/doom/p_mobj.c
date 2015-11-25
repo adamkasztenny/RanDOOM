@@ -43,45 +43,89 @@ void P_SpawnMapThing (mapthing_t*	mthing);
 // new functions 
 void P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z);
 void P_SpawnRandObj(fixed_t x, fixed_t y, fixed_t z);
+mobjtype_t P_ChooseRandMonster(int typeToSpawn);
 
 
 //
-// P_SpawnRandNearFixed
+// P_SpawnRandNear
 // Spawns a monster randomly on the map, near an existing mobj
 void
 P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
 {
     srand(time(NULL));
-    int r = P_Random ();
-    int r2 = P_Random ();
+    int typeToSpawn = P_Random ();
+    int decideToSpawn = P_Random ();
     mobjtype_t  type;
     mobj_t*     newmobj;
     // Probability distribution (kind of :),
     // decreasing likelihood.
     // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/ for the monster explaination
-    if (r2 < 70) {
-        if ( r < 50 )
-            type = MT_TROOP;      // imp
-        else if (r<90)
-            type = MT_SERGEANT;   // demon
-        else if (r<120)
-            type = MT_SHADOWS;    // spectre
-        else if (r < 140)
-            type = MT_SHOTGUY;    //shotguy
-        else if ( r < 160)
-            type = MT_POSSESSED; // zombie
-        else if (r < 180)
-            type = MT_HEAD;       // cacodemon
-        else if (r < 200)
-            type = MT_BRUISER;    // baron of hell
-        else
-            type = MT_POSSESSED; // zombie
-    
+    if (decideToSpawn < 70) {
+        type = P_ChooseRandMonster(typeToSpawn);
         srand(time(NULL));
         newmobj = P_SpawnMobj ((rand() % x) , y, z, type);
         P_SetMobjState (newmobj, newmobj->info->seestate);
         P_TeleportMove (newmobj, newmobj->x, newmobj->y);
     }
+}
+
+
+mobjtype_t P_ChooseRandMonster(int typeToSpawn)
+{
+    mobjtype_t  type;
+
+    // Probability distribution (kind of :),
+    // decreasing likelihood.
+    // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/ for the monster explaination
+        if (typeToSpawn < 50)
+            type = MT_TROOP;      // imp
+        else if (typeToSpawn < 90)
+            type = MT_SERGEANT;   // demon
+        else if (typeToSpawn < 120)
+            type = MT_SHADOWS;    // spectre
+        else if (typeToSpawn < 140)
+            type = MT_SHOTGUY;    // shotguy
+        else if (typeToSpawn < 160)
+            type = MT_POSSESSED; // zombie
+        else if (typeToSpawn < 180)
+            type = MT_HEAD;       // cacodemon
+        else if (typeToSpawn < 200)
+            type = MT_BRUISER;    // baron of hell
+        else
+            type = MT_POSSESSED; // zombie
+
+        return type;
+}
+
+mobjtype_t P_ChooseRandObj(int typeToSpawn)
+{
+    mobjtype_t  type;
+    int objectType;
+    mobjtype_t	type;
+    mobj_t*	newmobj;
+
+     objectType = P_Random ()
+    
+    if (typeToSpawn < 50) {
+  	if (objectType < 50)
+            type = MT_CLIP;     
+        else if (objectType < 90)
+    	    objectType = MT_MISC11;  
+  	else
+    	    objectType = MT_MISC10;   
+   }
+
+   else if (typeToSpawn < 90) {
+  
+    if (objectType < 50)
+    	type = MT_SHOTGUN;     
+    else if (objectType < 90)
+    	type = MT_CHAINGUN;   
+    else
+    	type = MT_CLIP; 
+    }
+
+    return type;
 }
 
 //
@@ -946,9 +990,7 @@ if (r2 < 50){
    int r = P_Random ();
     mobjtype_t	type;
     mobj_t*	newmobj;
-    // Probability distribution (kind of :),
-    // decreasing likelihood.
-    // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/ for the monster explaination
+
   if ( r < 50 )
     type = MT_CLIP;     
   else if (r<90)
@@ -964,8 +1006,6 @@ else if (r2 < 90){
    int r = P_Random ();
     mobjtype_t	type;
     mobj_t*	newmobj;
-    // Probability distribution (kind of :),
-    // decreasing likelihood.
   if ( r<50 )
     type = MT_SHOTGUN;     
   else if (r<90)

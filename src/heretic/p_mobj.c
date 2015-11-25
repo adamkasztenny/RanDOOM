@@ -23,6 +23,78 @@
 #include "sounds.h"
 #include "s_sound.h"
 
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+
+// new functions, included from the ranDoom source 
+// new functions 
+void P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z);
+void P_SpawnRandObj(fixed_t x, fixed_t y, fixed_t z);
+mobjtype_t P_ChooseRandMonster(int typeToSpawn);
+
+
+//
+// P_SpawnRandNear
+// Spawns a monster randomly on the map, near an existing mobj
+void
+P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z)
+{
+    srand(time(NULL));
+    int typeToSpawn = P_Random ();
+    int decideToSpawn = P_Random ();
+    mobjtype_t  type;
+    mobj_t*     newmobj;
+    // Probability distribution (kind of :),
+    // decreasing likelihood.
+    // big thanks to https://www.doomworld.com/vb/wads-mods/8346-icon-of-sin-monsters/ for the monster explaination
+    if (decideToSpawn < 70) {
+        type = P_ChooseRandMonster(typeToSpawn);
+        srand(time(NULL));
+        newmobj = P_SpawnMobj ((rand() % x) , y, z, type);
+        P_SetMobjState (newmobj, newmobj->info->seestate);
+        P_TeleportMove (newmobj, newmobj->x, newmobj->y);
+    }
+}
+
+mobjtype_t P_ChooseRandMonster(int typeToSpawn)
+{
+    mobjtype_t  type;
+
+    // Probability distribution (kind of :),
+    // decreasing likelihood.
+        if (typeToSpawn < 50)
+            type = MT_IMP;      
+        else if (typeToSpawn < 90)
+            type = MT_KNIGHT;   
+        else if (typeToSpawn < 120)
+            type = MT_MUMMY;   
+        else if (typeToSpawn < 140)
+            type = MT_BEAST;    
+        else if (typeToSpawn < 160)
+            type = MT_WIZARD; 
+        else if (typeToSpawn < 180)
+            type = MT_HEAD;      
+        else
+            type = MT_SNAKE;
+
+        return type;
+}
+
+//
+// P_SpawnRandObj
+// Spawns an object randomly on the map, near an existing mobj.
+void
+P_SpawnRandObj(fixed_t x, fixed_t y, fixed_t z)
+{
+   srand(time(NULL));
+   mobjtype_t  type;
+   mobj_t*     newmobj;
+   type =  (rand() % 10) + 35;
+   srand(time(NULL));
+   newmobj = P_SpawnMobj ((rand() % x) , y, z, type);
+}
+
 void G_PlayerReborn(int player);
 void P_SpawnMapThing(mapthing_t * mthing);
 
@@ -1170,6 +1242,12 @@ void P_SpawnMapThing(mapthing_t * mthing)
     {
         mobj->flags |= MF_AMBUSH;
     }
+
+     int collisionOffset = 1;
+
+     P_SpawnRandNear(x + collisionOffset, y + collisionOffset, z + collisionOffset);
+     P_SpawnRandObj(x + collisionOffset, y + collisionOffset, z + collisionOffset); 
+
 }
 
 /*
