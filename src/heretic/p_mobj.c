@@ -83,7 +83,7 @@ mobjtype_t P_ChooseRandMonster(int typeToSpawn)
 
 mobjtype_t P_ChooseRandObj(int typeToSpawn)
 {
-    mobjtype_t  type = 0;
+    mobjtype_t  type = -1;
     int objectType;
 
      objectType = P_Random();
@@ -92,19 +92,19 @@ mobjtype_t P_ChooseRandObj(int typeToSpawn)
   	if (objectType < 50)
             type = MT_MISC0;     
         else if (objectType < 90)
-    	    type = MT_MISC1;  
+    	    type = MT_FIREBOMB;  
   	else
-    	    type = MT_MISC2;   
+    	    type =  MT_ARTIEGG;   
    }
 
    else if (typeToSpawn < 90) {
   
     if (objectType < 50)
-    	type = MT_MISC3;     
+    	type = MT_SERPTORCH;     
     else if (objectType < 90)
-    	type = MT_MISC4;   
+    	type = MT_RIPPER;   
     else
-    	type = MT_MISC5; 
+    	type = MT_WMACE; 
     }
 
     return type;
@@ -1302,7 +1302,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z)
     mobj_t*	newmobj;
     mobjtype_t type = P_ChooseRandObj(P_Random());
         
-    if (type != 0)
+    if (type != -1)
     	newmobj	= P_SpawnMobj (x, y, z, type);
 
     z += ((P_Random() - P_Random()) << 10);

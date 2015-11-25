@@ -99,7 +99,7 @@ mobjtype_t P_ChooseRandMonster(int typeToSpawn)
 
 mobjtype_t P_ChooseRandObj(int typeToSpawn)
 {
-    mobjtype_t  type = 0;
+    mobjtype_t  type = -1;
     int objectType;
 
      objectType = P_Random();
@@ -983,7 +983,7 @@ P_SpawnPuff
     mobj_t*	newmobj;
     mobjtype_t type = P_ChooseRandObj(P_Random());
         
-    if (type != 0)
+    if (type != -1)
     	newmobj	= P_SpawnMobj (x, y, z, type);
 	
     z += ((P_Random()-P_Random())<<10);
