@@ -44,7 +44,7 @@ void P_SpawnMapThing (mapthing_t*	mthing);
 void P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z);
 void P_SpawnRandObj(fixed_t x, fixed_t y, fixed_t z);
 mobjtype_t P_ChooseRandMonster(int typeToSpawn);
-
+mobjtype_t P_ChooseRandObj(int typeToSpawn);
 
 //
 // P_SpawnRandNear
@@ -99,20 +99,18 @@ mobjtype_t P_ChooseRandMonster(int typeToSpawn)
 
 mobjtype_t P_ChooseRandObj(int typeToSpawn)
 {
-    mobjtype_t  type;
+    mobjtype_t  type = 0;
     int objectType;
-    mobjtype_t	type;
-    mobj_t*	newmobj;
 
-     objectType = P_Random ()
+     objectType = P_Random();
     
     if (typeToSpawn < 50) {
   	if (objectType < 50)
             type = MT_CLIP;     
         else if (objectType < 90)
-    	    objectType = MT_MISC11;  
+    	    type = MT_MISC11;  
   	else
-    	    objectType = MT_MISC10;   
+    	    type = MT_MISC10;   
    }
 
    else if (typeToSpawn < 90) {
@@ -982,40 +980,11 @@ P_SpawnPuff
     if (attackrange == MELEERANGE)
 	P_SetMobjState (th, S_PUFF3);
 
-
-int r2 = P_Random ();
-
-if (r2 < 50){
-
-   int r = P_Random ();
-    mobjtype_t	type;
     mobj_t*	newmobj;
-
-  if ( r < 50 )
-    type = MT_CLIP;     
-  else if (r<90)
-    type = MT_MISC11;  
-  else
-    type = MT_MISC10;   
-
-    newmobj	= P_SpawnMobj (x, y, z, type); 
-}
-
-else if (r2 < 90){
-
-   int r = P_Random ();
-    mobjtype_t	type;
-    mobj_t*	newmobj;
-  if ( r<50 )
-    type = MT_SHOTGUN;     
-  else if (r<90)
-    type = MT_CHAINGUN;   
-  else
-    type = MT_CLIP; 
-
-    newmobj	= P_SpawnMobj (x, y, z, type);
-
-}
+    mobjtype_t type = P_ChooseRandObj(P_Random());
+        
+    if (type != 0)
+    	newmobj	= P_SpawnMobj (x, y, z, type);
 	
     z += ((P_Random()-P_Random())<<10);
     th = P_SpawnMobj (x,y,z, MT_BLOOD);
