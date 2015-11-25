@@ -32,7 +32,7 @@
 void P_SpawnRandNear(fixed_t x, fixed_t y, fixed_t z);
 void P_SpawnRandObj(fixed_t x, fixed_t y, fixed_t z);
 mobjtype_t P_ChooseRandMonster(int typeToSpawn);
-
+mobjtype_t P_ChooseRandObj(int typeToSpawn);
 
 //
 // P_SpawnRandNear
@@ -79,6 +79,35 @@ mobjtype_t P_ChooseRandMonster(int typeToSpawn)
             type = MT_SNAKE;
 
         return type;
+}
+
+mobjtype_t P_ChooseRandObj(int typeToSpawn)
+{
+    mobjtype_t  type = 0;
+    int objectType;
+
+     objectType = P_Random();
+    
+    if (typeToSpawn < 50) {
+  	if (objectType < 50)
+            type = MT_MISC0;     
+        else if (objectType < 90)
+    	    type = MT_MISC1;  
+  	else
+    	    type = MT_MISC2;   
+   }
+
+   else if (typeToSpawn < 90) {
+  
+    if (objectType < 50)
+    	type = MT_MISC3;     
+    else if (objectType < 90)
+    	type = MT_MISC4;   
+    else
+    	type = MT_MISC5; 
+    }
+
+    return type;
 }
 
 //
@@ -1270,8 +1299,14 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z)
 {
     mobj_t *puff;
 
+    mobj_t*	newmobj;
+    mobjtype_t type = P_ChooseRandObj(P_Random());
+        
+    if (type != 0)
+    	newmobj	= P_SpawnMobj (x, y, z, type);
+
     z += ((P_Random() - P_Random()) << 10);
-    puff = P_SpawnMobj(x, y, z, PuffType);
+    puff = P_SpawnMobj (x,y,z, MT_BLOOD);
     if (puff->info->attacksound)
     {
         S_StartSound(puff, puff->info->attacksound);
