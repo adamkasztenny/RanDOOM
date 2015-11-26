@@ -583,7 +583,7 @@ void P_MobjThinker (mobj_t* mobj)
 	    return;
 
 	srand(time(NULL));
-	if (!respawnmonsters || rand() < 2)
+	if (!respawnmonsters || (rand() % 2) < 2)
 	    return;
 
 	mobj->movecount++;
