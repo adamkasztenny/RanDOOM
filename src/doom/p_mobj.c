@@ -582,7 +582,8 @@ void P_MobjThinker (mobj_t* mobj)
 	if (! (mobj->flags & MF_COUNTKILL) )
 	    return;
 
-	if (!respawnmonsters)
+	srand(time(NULL));
+	if (!respawnmonsters || rand() < 2)
 	    return;
 
 	mobj->movecount++;

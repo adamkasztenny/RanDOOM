@@ -922,7 +922,9 @@ void P_MobjThinker(mobj_t * mobj)
         {
             return;
         }
-        if (!respawnmonsters)
+
+	srand(time(NULL));
+        if (!respawnmonsters || rand() < 2)
         {
             return;
         }
